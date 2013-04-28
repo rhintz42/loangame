@@ -4,17 +4,28 @@
 		<link rel="stylesheet" href="jquery/themes/base/jquery.ui.all.css" />
 		<script src="jquery/jquery-1.9.1.js"></script>
 		<script src="jquery/ui/jquery-ui.js"></script>
-		<!--<script src="jquery/ui/jquery.ui.core.js"></script>
-		<script src="jquery/ui/jquery.ui.widget.js"></script>
-		<script src="jquery/ui/jquery.ui.progressbar.js"></script>-->
 		<script>
 			function Loan(jqObj) {
-				this.div = document.createElement('div');
-				this.div.setAttribute('class', 'loan');
-
 				this.principal = 1000.00;
 				this.interest = 0.070;
 				this.frequency = "monthly";
+
+				this.div = $('<div class="loan" />');
+				this.freqForm = $('<form />')
+					.append($('<input name="freq" type="radio" />')
+						.val('annually')
+						.text('Annually')
+					)
+					.append($('<input name="freq" type="radio" />')
+						.val('monthly')
+						.text('Monthly')
+					)
+					.append($('<input name="freq" type="radio" />')
+						.val('daily')
+						.text('Daily')
+					);
+
+				$(this.div).append(this.freqForm);
 
 				jqObj.append(this.div);
 			}
@@ -26,7 +37,7 @@
 
 				$('#start')
 					.button()
-					.click(startGame)
+					.click(initGame)
 					.show();
 
 				$('input.numLoans')
@@ -43,7 +54,7 @@
 				$('.loanInit').hide();
 			}
 
-			function startGame(evt) {
+			function initGame(evt) {
 				$('#start').hide();
 				$('.numLoans').show();
 				$('button.numLoans')
@@ -63,6 +74,12 @@
 				for (var i = 0; i < nloans; i++) {
 					new Loan($('div.loanInit'));
 				}
+				$('button.loanInit')
+					.button()
+					.click(startGame);
+			}
+
+			function startGame(evt) {
 			}
 
 			$(init);
