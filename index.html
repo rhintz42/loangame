@@ -1,0 +1,81 @@
+<html>
+	<head>
+		<title>Loan Game</title>
+		<link rel="stylesheet" href="jquery/themes/base/jquery.ui.all.css" />
+		<script src="jquery/jquery-1.9.1.js"></script>
+		<script src="jquery/ui/jquery-ui.js"></script>
+		<!--<script src="jquery/ui/jquery.ui.core.js"></script>
+		<script src="jquery/ui/jquery.ui.widget.js"></script>
+		<script src="jquery/ui/jquery.ui.progressbar.js"></script>-->
+		<script>
+			function Loan(jqObj) {
+				this.div = document.createElement('div');
+				this.div.setAttribute('class', 'loan');
+
+				this.principal = 1000.00;
+				this.interest = 0.070;
+				this.frequency = "monthly";
+
+				jqObj.append(this.div);
+			}
+
+			function init() {
+				/*$( "#progressbar" ).progressbar({
+					value: 99
+				});*/
+
+				$('#start')
+					.button()
+					.click(startGame)
+					.show();
+
+				$('input.numLoans')
+					.focus(function(evt) {
+						if ($(this).val() == "How many loans?")
+							$(this).val("");
+					})
+					.blur(function(evt) {
+						if ($(this).val().length == 0)
+							$(this).val("How many loans?");
+					});
+
+				$('.numLoans').hide();
+				$('.loanInit').hide();
+			}
+
+			function startGame(evt) {
+				$('#start').hide();
+				$('.numLoans').show();
+				$('button.numLoans')
+					.button()
+					.click(loanCreator);
+			}
+
+			function loanCreator(evt) {
+				var nloans = $('input.numLoans').val();
+				if (nloans == null) return;
+
+				nloans = parseInt(nloans);
+
+				$('.numLoans').hide();
+				$('.loanInit').show();
+
+				for (var i = 0; i < nloans; i++) {
+					new Loan($('div.loanInit'));
+				}
+			}
+
+			$(init);
+		</script>
+	</head>
+	<body>
+		<button id="start">Start Game</button>
+		<input type="text" class="numLoans" value="How many loans?"></input>
+		<button class="numLoans">Create loans</button>
+
+		<div class="loanInit"></div>
+		<button class="loanInit">Create loans</button>
+
+		<div id="loans"></div>
+	</body>
+</html>
