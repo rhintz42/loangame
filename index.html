@@ -11,21 +11,47 @@
 				this.frequency = "monthly";
 
 				this.div = $('<div class="loan" />');
+
+				this.prinSlider = $('<div />')
+					.slider({
+						min : 200.00,
+						max : 20000.00,
+						value : 2500.00,
+						slide : function(evt, ui) {
+							$('#principle').text(ui.value);
+						}
+					});
+
+				this.intSlider = $('<div />')
+					.slider({
+						min : 0.01,
+						max : 0.10,
+						value : 0.07,
+						step : 0.001,
+						slide : function(evt, ui) {
+							$('#interest').text(ui.value);
+						}
+					});
+
 				this.freqForm = $('<form />')
 					.append($('<input name="freq" type="radio" />')
 						.val('annually')
-						.text('Annually')
-					)
-					.append($('<input name="freq" type="radio" />')
+					).append('Annually')
+					.append($('<input name="freq" type="radio" checked="checked" />')
 						.val('monthly')
-						.text('Monthly')
-					)
+					).append('Monthly')
 					.append($('<input name="freq" type="radio" />')
 						.val('daily')
-						.text('Daily')
-					);
+					).append('Daily');
 
-				$(this.div).append(this.freqForm);
+				$(this.div)
+					.append($('<span id="principle">2500.00</span>'))
+					.append(this.prinSlider)
+					.append($('<br />'))
+					.append($('<span id="interest">0.070</span>'))
+					.append(this.intSlider)
+					.append($('<br />'))
+					.append(this.freqForm);
 
 				jqObj.append(this.div);
 			}
